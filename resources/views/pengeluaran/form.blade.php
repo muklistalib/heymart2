@@ -16,9 +16,17 @@
 	
 	<input type="hidden" id="id" name="id">
 	<div class="form-group">
-		<label for="nama" class="col-md-3 control-label">Nama Produk</label>
+		<label for="jenis" class="col-md-3 control-label">Jenis Pengeluaran</label>
 		<div class="col-md-6">
-			<input id="nama" type="text" class="form-control" name="nama" autofocus required>
+			<input id="jenis" type="text" class="form-control" name="jenis" autofocus required>
+				<span class="help-block with-errors"></span>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="nominal" class="col-md-3 control-label">Nominal</label>
+		<div class="col-md-6">
+			<input id="nominal" type="text" class="form-control" name="nominal" autofocus required>
 				<span class="help-block with-errors"></span>
 		</div>
 	</div>

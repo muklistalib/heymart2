@@ -1,11 +1,8 @@
 @extends('layouts.app')
 
 @section('title')
-	Daftar Kategori
+	Daftar Supplier
 @endsection
-
-
-
 
 @section('content')
 
@@ -13,19 +10,22 @@
         <div class="col-md-12">
 				<a onclick="addForm()" class="btn btn-success"><i class="fa fa-plus-circle"></i> Tambah</a>
 				</div>
-				<table class="table table-striped" id="table-kategori">
+				<table class="table table-striped" id="tabel-kategori">
 				<thead>
 					<tr>
-						<th>No</th>
-						<th>Nama Kategori</th>
-						<th>Aksi</th>
+						<th width="30">No</th>
+						<th>Nama Supplier</th>
+						<th>Alamat</th>
+						<th>Telpon</th>
+						<th width="100">Aksi</th>
 					</tr>
 				</thead>
 				<tbody></tbody>
 				</table>
 </div>
-
+@include('supplier.form')
 @endsection
+
 @section('script')
 <script type="text/javasript">
 var table, save method;
@@ -35,7 +35,7 @@ $(function(){
 table = $('.table').DataTable({
 	"processing" : true,
 	"ajax" : {
-		"url" : "{{ route('kategori.data') }}",
+		"url" : "{{ route('supplier.data') }}",
 		"type" : "GET"
 	}
 });
@@ -44,8 +44,8 @@ table = $('.table').DataTable({
 $('#modal-form form').validator().on('submit', function(e){
 	if(!e.isDefaultPrevented()){
 		var id = $('#id').val();
-		if(save method == "add") url = {{ route('kategori.store') }}";
-		else url = "kategori/" +id;
+		if(save method == "add") url = {{ route('supplier.store') }}";
+		else url = "supplier/" +id;
 		
 		$.ajax({
 			url : url,
@@ -69,8 +69,8 @@ function addForm(){
 	save method = "add";
 	$('input[name= method]').val('POST');
 	$('#modal-form').modal('show');
-	$('#modal-form form')[1].reset();
-	$('.modal-title').text('Tambah Kategori');
+	$('#modal-form form')[0].reset();
+	$('.modal-title').text('Tambah Supplier');
 }
 
 //Menampilkan form edit dan menampilkan data pada form tersebut
@@ -79,15 +79,16 @@ function editForm(id){
 		$('input[name=method]').val('PATCH');
 		$('#modal-form form')[0].reset();
 		$.ajax({
-			url : "kategori/"+id+"/edit",
+			url : "supplier/"+id+"/edit",
 			type : "GET"
 			dataType : "JSON"
 			success : function(data){
 				$('#modal-form').modal('show');
-				$('.modal-title').text('Edit Kategori');
+				$('.modal-title').text('Edit Supplier');
 				
-				$('#id').val(data.id_kategori);
-				$('#nama').val(data.nama_kategori);
+				$('#id').val(data.id_supplier);
+				$('#nama').val(data.nama);
+				$('#alamat').val(data.telpon);
 			},
 			error : function(){
 				alert("tidak dapat menampilkan data!")
@@ -99,12 +100,12 @@ function editForm(id){
 function deleteData(id){
 	if(confirm("Apakah yakin data akan dihapus?")){
 		$.ajax({
-			url : "kategori/"+id,
+			url : "supplier/"+id,
 			type : "POST",
 			data : {' method' : 'DELETE', 'token' :
-			$('meta[name=csrf-token]'.attr('content')}
+			$('meta[name=csrf-token]'.attr('content')},
 			success : function(data){
-			table.ajax.reload()'
+			table.ajax.reload();
 			},
 		error : function(){
 			alert("tidak dapat menghapusdata!");
@@ -112,5 +113,6 @@ function deleteData(id){
 		});
 	}
 }
+
 </script>
 @endsection

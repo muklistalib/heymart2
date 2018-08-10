@@ -16,9 +16,33 @@
 	
 	<input type="hidden" id="id" name="id">
 	<div class="form-group">
-		<label for="nama" class="col-md-3 control-label">Nama Produk</label>
+		<label for="nama" class="col-md-3 control-label">Nama User</label>
 		<div class="col-md-6">
 			<input id="nama" type="text" class="form-control" name="nama" autofocus required>
+				<span class="help-block with-errors"></span>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="email" class="col-md-3 control-label">Email</label>
+		<div class="col-md-6">
+			<input id="email" type="text" class="form-control" name="email" required>
+				<span class="help-block with-errors"></span>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="password" class="col-md-3 control-label">Password</label>
+		<div class="col-md-6">
+			<input id="password" type="password" class="form-control" name="password" required>
+				<span class="help-block with-errors"></span>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label for="password1" class="col-md-3 control-label">Ulang Password</label>
+		<div class="col-md-6">
+			<input id="password1" type="password" class="form-control" data-match="#password" name="password1" required>
 				<span class="help-block with-errors"></span>
 		</div>
 	</div>

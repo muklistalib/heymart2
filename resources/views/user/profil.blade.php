@@ -1,31 +1,32 @@
 @extends('layouts.app')
 
 @section('title')
-	Daftar Kategori
+	Edit Profil
 @endsection
-
-
-
 
 @section('content')
 
 <div class="row">
         <div class="col-md-12">
+		<form class="form-horizontal" data-toggle="validator" method="POST">
+		{{ csrf_field() }} {{ method_field('POST') }}
 				<a onclick="addForm()" class="btn btn-success"><i class="fa fa-plus-circle"></i> Tambah</a>
 				</div>
-				<table class="table table-striped" id="table-kategori">
+				<table class="table table-striped" id="tabel-kategori">
 				<thead>
 					<tr>
-						<th>No</th>
-						<th>Nama Kategori</th>
-						<th>Aksi</th>
+						<th width="30">No</th>
+						<th>Nama User</th>
+						<th>Email</th>
+						<th width="100">Aksi</th>
 					</tr>
 				</thead>
 				<tbody></tbody>
 				</table>
 </div>
-
+@include('user.form')
 @endsection
+
 @section('script')
 <script type="text/javasript">
 var table, save method;
@@ -35,7 +36,7 @@ $(function(){
 table = $('.table').DataTable({
 	"processing" : true,
 	"ajax" : {
-		"url" : "{{ route('kategori.data') }}",
+		"url" : "{{ route('user.data') }}",
 		"type" : "GET"
 	}
 });
@@ -44,7 +45,7 @@ table = $('.table').DataTable({
 $('#modal-form form').validator().on('submit', function(e){
 	if(!e.isDefaultPrevented()){
 		var id = $('#id').val();
-		if(save method == "add") url = {{ route('kategori.store') }}";
+		if(save method == "add") url = {{ route('user.store') }}";
 		else url = "kategori/" +id;
 		
 		$.ajax({
@@ -69,8 +70,9 @@ function addForm(){
 	save method = "add";
 	$('input[name= method]').val('POST');
 	$('#modal-form').modal('show');
-	$('#modal-form form')[1].reset();
-	$('.modal-title').text('Tambah Kategori');
+	$('#modal-form form')[0].reset();
+	$('.modal-title').text('Tambah User');
+	$('#password').attr('required', true);
 }
 
 //Menampilkan form edit dan menampilkan data pada form tersebut
@@ -79,15 +81,17 @@ function editForm(id){
 		$('input[name=method]').val('PATCH');
 		$('#modal-form form')[0].reset();
 		$.ajax({
-			url : "kategori/"+id+"/edit",
+			url : "user/"+id+"/edit",
 			type : "GET"
 			dataType : "JSON"
 			success : function(data){
 				$('#modal-form').modal('show');
-				$('.modal-title').text('Edit Kategori');
+				$('.modal-title').text('Edit User');
 				
-				$('#id').val(data.id_kategori);
-				$('#nama').val(data.nama_kategori);
+				$('#id').val(data.id);
+				$('#nama').val(data.name);
+				$('#email').val(data.email);
+				$('#password, #password1').remoteAttr('required');
 			},
 			error : function(){
 				alert("tidak dapat menampilkan data!")
@@ -99,18 +103,19 @@ function editForm(id){
 function deleteData(id){
 	if(confirm("Apakah yakin data akan dihapus?")){
 		$.ajax({
-			url : "kategori/"+id,
+			url : "user/"+id,
 			type : "POST",
 			data : {' method' : 'DELETE', 'token' :
-			$('meta[name=csrf-token]'.attr('content')}
+			$('meta[name=csrf-token]'.attr('content')},
 			success : function(data){
-			table.ajax.reload()'
+			table.ajax.reload();
 			},
 		error : function(){
-			alert("tidak dapat menghapusdata!");
+			alert("tidak dapat menghapus data!");
 		}
 		});
 	}
 }
+
 </script>
 @endsection

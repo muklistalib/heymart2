@@ -21,11 +21,12 @@
     <!-- Custom Theme Style -->
     <link href="build/css/custom.min.css" rel="stylesheet">
 	<!-- Custom Data Tables -->
-	<link href="datatables/css/datatables.bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{url('datatables/css/datatables.bootstrap.css')}}">
+	
 	
   </head>
 
-  <body class="nav-md">
+   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col">
@@ -63,15 +64,15 @@
 					  
                   <li><a href="{{ route('kategori.index') }}"><i class="fa fa-cube"></i> kategori </a>
                   </li>
-                  <li><a href="{{ route('home') }}"><i class="fa fa-cubes"></i> Produk </a>
+                  <li><a href="{{ route('produk.index') }}"><i class="fa fa-cubes"></i> Produk </a>
                   </li>
-                  <li><a href="{{ route('home') }}"><i class="fa fa-credit-card"></i> Member </a>
+                  <li><a href="{{ route('member.index') }}"><i class="fa fa-credit-card"></i> Member </a>
                   </li>
-                  <li><a href="{{ route('home') }}"><i class="fa fa-truck"></i> Supplier </a>
+                  <li><a href="{{ route('supplier.index') }}"><i class="fa fa-truck"></i> Supplier </a>
                   </li>
-				   <li><a href="{{ route('home') }}"><i class="fa fa-money"></i> Pengeluaran </a>
+				   <li><a href="{{ route('pengeluaran.index') }}"><i class="fa fa-money"></i> Pengeluaran </a>
                   </li>
-                  <li><a href="{{ route('home') }}"><i class="fa fa-user"></i> User </a>
+                  <li><a href="{{ route('user.index') }}"><i class="fa fa-user"></i> User </a>
                   </li>
                   <li><a href="{{ route('home') }}"><i class="fa fa-upload"></i> Penjualan </a>
                   </li>
@@ -233,7 +234,7 @@
     <!-- Custom Theme Scripts -->
     <script src="build/js/custom.min.js"></script>
 	<!-- Custom data tables -->
-	<script src="datatables/js/jquery.dataTables.min.js"></script>
+	<script src="{{url('datatables/js/jquery.dataTables.min.js')}}"></script>
 @yield('script')
   </body>
 </html>

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Kategori;
+use App\Member;
 
-use Datatables;
+use PDF;
 
-class KategoriController extends Controller
+class MemberController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,28 +17,30 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        return view('kategori.index');
+        return view('member.index');
     }
-
 	public function listData()
 	{
-		$kategori = kategori::orderBy('id_kategori', 'desc')->get();
+		$member = Member::orderBy('id_member', 'desc')->get();
 		$no = 0;
 		$data = array();
-		foreach($kategori as $list){
+		foreach($member as $list){
 			$no ++;
 			$row = array();
+			$row[] ="<input type='checkbox' name='id[]'' value='".$list->id_member."'>";
 			$row[] = $no;
-			$row[] = $list->nama_kategori;
+			$row[] = $list->kode_member;
+			$row[] = $list->nama;
+			$row[] = $list->alamat;
+			$row[] = $list->telpon;
 			$row[] = '<div class="btn-group">
-						<a onclick="editForm('.$list->id_kategori.')" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
-						<a onclick="deleteData('.$list->id_kategori.')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></div>';
+						<a onclick="editForm('.$list->id_member.')" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
+						<a onclick="deleteData('.$list->id_member')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></div>';
 			$data[] = $row;
 		}
 		$output = array("data" => $data);
 		return response()->json($output);
 	}
-	
     /**
      * Show the form for creating a new resource.
      *
@@ -57,13 +59,20 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $kategori = new kategori;
-		$kategori->nama_kategori = $request['nama'];
-		$kategori->save();
+        $jml = Member::where ('kode_member', '=', $request['kode'])->count();
+		if($jml < 1){
+			$member = new Member;
+			$member->kode_member = $request['kode'];
+			$member->nama = $request['nama'];
+			$member->alamat = $request['alamat'];
+			$member->telpon = $request['telpon'];
+			$produk->save();
+			echo json_encode(array('msg' => 'succes'));
+		}else{ 
+			echo json_encode(array('msg' => 'error'));
+		}
     }
 
-	
-	
     /**
      * Display the specified resource.
      *
@@ -83,8 +92,8 @@ class KategoriController extends Controller
      */
     public function edit($id)
     {
-        $kategori = Kategori::find($id);
-		echo json_encode($kategori);
+        $member = Member::find($id);
+		echo json_encode($member);
     }
 
     /**
@@ -96,9 +105,12 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $kategori = kategori::find($id);
-		$kategori->nama_kategori = $request['nama'];
+		$member = Member::find($id);
+		$member->nama = $request['nama'];
+		$member->alamat = $request['alamat'];
+		$member->telpon = $request['telpon'];
 		$kategori->update();
+		echo json_encode(array('msg'=>'success'));
     }
 
     /**
@@ -109,7 +121,20 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
-        $kategori = kategori::find($id);
-		$kategori->delete();
+        $member = Member::find($id);
+		$member->delete();
     }
+	
+	public function printcard(request $request)
+    {
+		$datamember = array();
+		foreach($request['id'] as $id){
+			$member = Member::find($id);
+			$datamember[] = $member;
+		}
+        $pdf = PDF::loadView('member.card', compact('datamember'));
+		$pdf->setPaper(array(0, 0, 566.93, 850.39 ), 'potrait');
+		return $pdf->stream();
+    }
+	
 }
