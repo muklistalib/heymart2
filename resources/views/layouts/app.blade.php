@@ -22,6 +22,10 @@
     <link href="build/css/custom.min.css" rel="stylesheet">
 	<!-- Custom Data Tables -->
 	<link rel="stylesheet" type="text/css" href="{{url('datatables/css/datatables.bootstrap.css')}}">
+	 <!-- iCheck -->
+    <link href="Admin/iCheck/skins/flat/green.css" rel="stylesheet">
+     <!-- bootstrap-progressbar -->
+    <link href="Admin/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
 	
 	
   </head>
